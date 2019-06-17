@@ -11,7 +11,9 @@ namespace Benchmarks
         /// <param name="args"></param>
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<ConcatVsStringbuilder>();
+            //BenchmarkRunner.Run<ConcatVsStringbuilder>();
+
+            BenchmarkRunner.Run<ThreadVsTask>();
 
             Console.ReadKey();
         }
