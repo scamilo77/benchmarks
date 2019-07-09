@@ -5,6 +5,7 @@ namespace Benchmarks
 {
     class Program
     {
+
         /// <summary>
         /// Add your benchmark execution here. Comment previous executions in order to execute yours.
         /// </summary>
@@ -13,9 +14,13 @@ namespace Benchmarks
         {
             //BenchmarkRunner.Run<ConcatVsStringbuilder>();
 
-            BenchmarkRunner.Run<ThreadVsTask>();
+            //BenchmarkRunner.Run<ThreadVsTask>();
+
+            BenchmarkRunner.Run<ForVsForeachWithLists>();
 
             Console.ReadKey();
         }
+
+        
     }
 }

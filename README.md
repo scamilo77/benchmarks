@@ -7,6 +7,31 @@ BenchmarkDotNet documentation: https://benchmarkdotnet.org/
 Fork this repository, create your benchmark, add the results to this file and send a Pull Request.
 
 
+## For vs Foreach vs Linq ForEach - Iteração, comparação e alteração entre listas (scamilo77 - Sugestão do Anderson)
+
+Nota: No caso do ForEach (Linq), não é possível usar o comando BREAK, ou seja, sempre irá executar no PIOR CASO, sempre todos os itens da lista serão lidos a cada iteração.
+
+```
+BenchmarkDotNet=v0.11.5, OS=Windows 10.0.18362
+Intel Core i7-2600 CPU 3.40GHz (Sandy Bridge), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=2.2.300
+  [Host] : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT  [AttachedDebugger]
+  Core   : .NET Core 2.2.5 (CoreCLR 4.6.27617.05, CoreFX 4.6.27618.01), 64bit RyuJIT
+
+Job=Core  Runtime=Core
+
+|           Method | Size |         Mean |         Error |        StdDev |          Min |          Max |  Gen 0 | Gen 1 | Gen 2 | Allocated |
+|----------------- |----- |-------------:|--------------:|--------------:|-------------:|-------------:|-------:|------:|------:|----------:|
+|         UsingFor |   10 |     131.0 ns |     0.9766 ns |     0.9135 ns |     129.2 ns |     132.3 ns |      - |     - |     - |         - |
+|     UsingForeach |   10 |     535.4 ns |    10.4301 ns |    13.5621 ns |     515.0 ns |     565.9 ns |      - |     - |     - |         - |
+| UsingLinqForeach |   10 |     590.5 ns |     4.3212 ns |     4.0421 ns |     583.4 ns |     599.8 ns | 0.2241 |     - |     - |     944 B |
+|         UsingFor |  200 |  54,330.9 ns |   393.0404 ns |   348.4201 ns |  53,821.1 ns |  54,881.6 ns |      - |     - |     - |         - |
+|     UsingForeach |  200 | 127,845.8 ns |   537.6574 ns |   502.9251 ns | 127,191.0 ns | 128,630.4 ns |      - |     - |     - |         - |
+| UsingLinqForeach |  200 | 133,428.9 ns | 1,586.3937 ns | 1,406.2967 ns | 131,401.1 ns | 136,404.1 ns | 4.1504 |     - |     - |   17664 B |
+
+```
+
+
 ## String.Concat vs StringBuilder (scamilo77)
 
 ```
