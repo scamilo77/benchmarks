@@ -16,7 +16,9 @@ namespace Benchmarks
 
             //BenchmarkRunner.Run<ThreadVsTask>();
 
-            BenchmarkRunner.Run<ForVsForeachWithLists>();
+            //BenchmarkRunner.Run<ForVsForeachWithLists>();
+
+            BenchmarkRunner.Run<SubstringVsSlice>();
 
             Console.ReadKey();
         }

@@ -1,10 +1,14 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
 using System.Text;
 
 namespace Benchmarks
 {
-    [ClrJob, CoreJob]
-    [MemoryDiagnoser, MarkdownExporter]
+    [DryCoreJob]
+    [MemoryDiagnoser]
     public class ConcatVsStringbuilder
     {
         [Params(10, 100, 1000)]

@@ -1,4 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,8 +10,6 @@ using System.Text;
 namespace Benchmarks
 {
     [CoreJob]
-    [MinColumn]
-    [MaxColumn]
     [MemoryDiagnoser]
     public class ForVsForeachWithLists
     {
@@ -16,6 +18,28 @@ namespace Benchmarks
 
         public List<TestObject> ListA { get; set; }
         public List<TestObject> ListB { get; set; }
+
+        [Benchmark]
+        public void UsingWhile()
+        {
+            var i = 0;
+
+            while(i < Size)
+            {
+                var j = 0;
+
+                while (j < Size)
+                {
+                    if (ListA[i].P1 == ListB[j].P1)
+                    {
+                        ListA[i].P2 = ListB[j].P2;
+                        break;
+                    }
+                    j++;
+                }
+                i++;
+            }
+        }
 
         [Benchmark]
         public void UsingFor()
@@ -65,7 +89,7 @@ namespace Benchmarks
         }
 
 
-        [GlobalSetup]
+        [IterationSetup]
         public void Setup()
         {
             ListA = new List<TestObject>();
@@ -113,4 +137,6 @@ namespace Benchmarks
         public int P1 { get; set; }
         public int P2 { get; set; }
     }
+
+    
 }

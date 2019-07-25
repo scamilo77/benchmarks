@@ -1,5 +1,9 @@
 ﻿using BenchmarkDotNet.Attributes;
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Diagnosers;
+using BenchmarkDotNet.Environments;
+using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.CsProj;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace Benchmarks
 {
-    [ClrJob, CoreJob]
-    [MinColumn, MaxColumn]
-    [MemoryDiagnoser, MarkdownExporter]
+    [CoreJob]
+    [MemoryDiagnoser]
     public class ThreadVsTask
     {
         [Params(10, 100)]
