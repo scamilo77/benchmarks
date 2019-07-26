@@ -6,6 +6,49 @@ BenchmarkDotNet documentation: https://benchmarkdotnet.org/
 
 Fork this repository, create your benchmark, add the results to this file and send a Pull Request.
 
+## Array Allocation (scamilo77)
+
+Nota: Este benchmark ilustra a performance da alocação de memória para Array de bytes (cada alocação é de 1 byte). 
+Para outros resultados, multiplicar pela quantidade de bytes utilizada pelo tipo desejado.
+
+Hint: Todo objeto com mais de 85kb não são frequentemente gerenciados automaticamente pelo Garbage Collector!
+
+ArrayPool<T> documentation: https://docs.microsoft.com/pt-br/dotnet/api/system.buffers.arraypool-1?view=netstandard-2.1
+ArrayPool<T>.Shared Property: https://docs.microsoft.com/pt-br/dotnet/api/system.buffers.arraypool-1.shared?view=netstandard-2.1#System_Buffers_ArrayPool_1_Shared
+Maoni Stevens sobre Large Object Heap: https://devblogs.microsoft.com/dotnet/large-object-heap-uncovered-from-an-old-msdn-article/
+
+```
+
+BenchmarkDotNet=v0.11.5, OS=Windows 10.0.18362
+Intel Core i7-2600 CPU 3.40GHz (Sandy Bridge), 1 CPU, 8 logical and 4 physical cores
+.NET Core SDK=2.2.301
+  [Host]     : .NET Core 2.2.6 (CoreCLR 4.6.27817.03, CoreFX 4.6.27818.02), 64bit RyuJIT  [AttachedDebugger]
+  Job-UMIQSX : .NET Core 2.2.6 (CoreCLR 4.6.27817.03, CoreFX 4.6.27818.02), 64bit RyuJIT
+
+Force=False  Toolchain=.NET Core 2.2
+
+|             Method |     Size |            Mean |          Error |         StdDev |    Gen 0 |    Gen 1 |    Gen 2 |  Allocated |
+|------------------- |--------- |----------------:|---------------:|---------------:|---------:|---------:|---------:|-----------:|
+|           UseArray |      100 |        14.29 ns |      0.3735 ns |      0.5474 ns |   0.0305 |        - |        - |      128 B |
+|       UseArrayPool |      100 |        44.74 ns |      0.2892 ns |      0.2415 ns |        - |        - |        - |          - |
+| UseArrayPoolShared |      100 |        47.97 ns |      0.1036 ns |      0.0969 ns |        - |        - |        - |          - |
+|           UseArray |     1000 |        88.20 ns |      0.5986 ns |      0.5599 ns |   0.2440 |        - |        - |     1024 B |
+|       UseArrayPool |     1000 |        44.27 ns |      0.1364 ns |      0.1209 ns |        - |        - |        - |          - |
+| UseArrayPoolShared |     1000 |        48.61 ns |      0.1843 ns |      0.1724 ns |        - |        - |        - |          - |
+|           UseArray |    10000 |       877.60 ns |      4.6128 ns |      4.0891 ns |   2.3918 |        - |        - |    10024 B |
+|       UseArrayPool |    10000 |        44.36 ns |      0.1721 ns |      0.1525 ns |        - |        - |        - |          - |
+| UseArrayPoolShared |    10000 |        50.39 ns |      0.3694 ns |      0.3275 ns |        - |        - |        - |          - |
+|           UseArray |   100000 |     8,901.82 ns |     24.7239 ns |     21.9171 ns |  31.2347 |  31.2347 |  31.2347 |   100024 B |
+|       UseArrayPool |   100000 |        44.54 ns |      0.1151 ns |      0.1020 ns |        - |        - |        - |          - |
+| UseArrayPoolShared |   100000 |        52.74 ns |      0.2199 ns |      0.2057 ns |        - |        - |        - |          - |
+|           UseArray |  1000000 |    44,040.06 ns |    508.2792 ns |    475.4447 ns | 249.9390 | 249.9390 | 249.9390 |  1000024 B |
+|       UseArrayPool |  1000000 |        44.99 ns |      0.3162 ns |      0.2640 ns |        - |        - |        - |          - |
+| UseArrayPoolShared |  1000000 |        49.11 ns |      0.4940 ns |      0.4379 ns |        - |        - |        - |          - |
+|           UseArray | 10000000 | 1,160,619.55 ns | 22,937.3314 ns | 23,554.9506 ns | 208.9844 | 208.9844 | 208.9844 | 10000024 B |
+|       UseArrayPool | 10000000 |        44.84 ns |      0.3116 ns |      0.2915 ns |        - |        - |        - |          - |
+| UseArrayPoolShared | 10000000 | 1,152,411.51 ns | 22,749.6239 ns | 26,198.5007 ns | 194.3359 | 194.3359 | 194.3359 | 10000024 B |
+
+```
 
 ## Substring vs. Slice (scamilo77)
 
