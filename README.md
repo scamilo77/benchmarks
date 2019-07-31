@@ -15,6 +15,7 @@ Hint: Todo objeto com mais de 85kb não são frequentemente gerenciados automati
 
 ArrayPool<T> documentation: https://docs.microsoft.com/pt-br/dotnet/api/system.buffers.arraypool-1?view=netstandard-2.1
 ArrayPool<T>.Shared Property: https://docs.microsoft.com/pt-br/dotnet/api/system.buffers.arraypool-1.shared?view=netstandard-2.1#System_Buffers_ArrayPool_1_Shared
+  
 Maoni Stevens sobre Large Object Heap: https://devblogs.microsoft.com/dotnet/large-object-heap-uncovered-from-an-old-msdn-article/
 
 ```
